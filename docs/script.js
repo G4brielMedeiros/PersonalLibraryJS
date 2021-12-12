@@ -9,6 +9,10 @@ class Book {
     this.pages = pages;
     this.read = read;
   }
+
+  toggleRead() {
+    this.read = !this.read;
+  }
 }
 
 
@@ -20,7 +24,7 @@ function displayBook(book) {
     let titleDOM = document.createElement('h3');
     let authorDOM = document.createElement('h4');
     let pagesDOM = document.createElement('p');
-    let readDOM = document.createElement('p');
+    let readDOM = document.createElement('button');
     let deleteBookDOM = document.createElement('button');
 
     bookDOM.id = book.id;
@@ -36,6 +40,11 @@ function displayBook(book) {
     pagesDOM.innerText = book.pages;
     readDOM.innerText = book.read;
     deleteBookDOM.innerText = 'Delete';
+
+    readDOM.addEventListener('click',  () => {
+      book.toggleRead();
+      readDOM.textContent = book.read;
+    })
 
     deleteBookDOM.addEventListener('click', () => {
       delete library[library.indexOf(book)]
