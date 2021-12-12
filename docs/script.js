@@ -1,5 +1,7 @@
 let library = [];
-let contentDOM = document.getElementById('content')
+let contentDOM = document.getElementById('content');
+let newBookButtonDOM = document.getElementById('new-book-button');
+let newBookFormDOM = document.getElementById('new-book-form');
 
 class Book {
   constructor(id, title, author, pages, read) {
@@ -12,6 +14,12 @@ class Book {
 
   toggleRead() {
     this.read = !this.read;
+
+    return this.read ? 'Done' : 'Not read';
+  }
+
+  getReadStatus() {
+    return this.read ? 'Done' : 'Not read';
   }
 }
 
@@ -36,14 +44,14 @@ function displayBook(book) {
     deleteBookDOM.className = 'book-delete';
 
     titleDOM.innerText = book.title;
-    authorDOM.innerText = book.author;
-    pagesDOM.innerText = book.pages;
-    readDOM.innerText = book.read;
+    authorDOM.innerText = "by " + book.author;
+    pagesDOM.innerText = book.pages + " pages";
+    readDOM.innerText = book.getReadStatus();
     deleteBookDOM.innerText = 'Delete';
 
     readDOM.addEventListener('click',  () => {
-      book.toggleRead();
-      readDOM.textContent = book.read;
+      
+      readDOM.textContent = book.toggleRead();
     })
 
     deleteBookDOM.addEventListener('click', () => {
@@ -62,25 +70,37 @@ function createBook() {
     document.getElementById('new-book-title').value,
     document.getElementById('new-book-author').value,
     document.getElementById('new-book-pages').value,
-    document.getElementById('new-book-read').checked
+    document.getElementById('new-book-read').checked,
     
   )
   library.push(book);
   console.log(book);
   displayBook(book);
+  newBookFormDOM.classList.remove('visible');
+  newBookFormDOM.classList.add('invisible')
 }
 
 
+newBookButtonDOM.addEventListener('click', () => {
+  if (newBookFormDOM.classList.contains('invisible')) {
+    newBookFormDOM.classList.remove('invisible');
+    newBookFormDOM.classList.add('visible');
+  }
+  else {
+    newBookFormDOM.classList.remove('visible');
+    newBookFormDOM.classList.add('invisible');
+  }
+
+})
 
 
-
-const book1 = new Book(library.length, 'book1', 'author1', 500, false);
+const book1 = new Book(library.length, 'Unwind', 'Neal Shusterman', 540, false);
 library.push(book1);
-const book2 = new Book(library.length, 'book2', 'author2', 600, false);
+const book2 = new Book(library.length, 'Book Great', 'Arthur The Writer', 604, false);
 library.push(book2);
-const book3 = new Book(library.length, 'book3', 'author3', 700, true);
+const book3 = new Book(library.length, 'Bunchof Words', 'Burr Ned', 741, true);
 library.push(book3);
-const book4 = new Book(library.length, 'book4', 'author4', 800, true);
+const book4 = new Book(library.length, 'Giant Mess', 'Bored McPerson', 924, true);
 library.push(book4);
 
 library.forEach((book) => displayBook(book))
